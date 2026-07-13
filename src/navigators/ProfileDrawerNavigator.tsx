@@ -5,6 +5,7 @@ import OrderScreen from "../screens/OrderScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import HelpScreen from "../screens/HelpScreen";
 import LogoutScreen from "../screens/LogoutScreen";
+import CustomDrawerContent from "../components/CustomDrawerContent";
 
 const Drawer = createDrawerNavigator();
 
@@ -14,7 +15,9 @@ type DrawerProp = {
 
 export default function DrawerNavigator({ setIsAuthenticated }: DrawerProp) {
   return (
-    <Drawer.Navigator initialRouteName="Profile">
+    <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
+    >
       <Drawer.Screen name="Profile" component={ProfileScreen} />
       <Drawer.Screen name="Settings" component={SettingsScreen} />
       <Drawer.Screen name="Help" component={HelpScreen} />
