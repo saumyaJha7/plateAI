@@ -13,6 +13,19 @@ Password  123456
 
 ---
 
+## Navigation Architecture 
+
+![Nav Architecture](assets/screenshots/PlateAI%20-%20Navigation%20Architecture.png)
+
+---
+
+## Auth Flow
+
+![Auth Flow](assets/screenshots/PlateAI%20-%20User%20Auth%20Flow.png)
+
+
+---
+
 ## Screenshots
 
 | Splash | Onboarding | Login |
