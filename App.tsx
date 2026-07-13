@@ -17,11 +17,11 @@ export default function App() {
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        const authStatus = await getAuthStatus();
-        const boardingStatus = await getBoardingStatus();
+        // const authStatus = await getAuthStatus();
+        // const boardingStatus = await getBoardingStatus();
 
-        setIsAuthenticated(authStatus);
-        setHasSeenBoarding(boardingStatus);
+        // setIsAuthenticated(authStatus);
+        // setHasSeenBoarding(boardingStatus);
       } catch (error) {
         console.error("Error initializing app:", error);
       } finally {
