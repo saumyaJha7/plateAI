@@ -9,8 +9,10 @@ const Stack = createNativeStackNavigator();
 type RootStackProps = {
   isAuthenticated: boolean;
   hasSeenBoarding: boolean;
+  cartCount: number;
   setIsAuthenticated: (value: boolean) => void;
   setHasSeenBoarding: (value: boolean) => void;
+  setCartCount: (value : number) => void;
 };
 
 export default function RootStack({
@@ -18,6 +20,8 @@ export default function RootStack({
   hasSeenBoarding,
   setIsAuthenticated,
   setHasSeenBoarding,
+  setCartCount,
+  cartCount
 }: RootStackProps) {
   return (
     <Stack.Navigator>
@@ -27,10 +31,14 @@ export default function RootStack({
           name="HomeTabs"
           options={{ headerShown: false }}
         >
-          {() => <HomeTabNavigator setIsAuthenticated={setIsAuthenticated}/>}
+          {() => <HomeTabNavigator setIsAuthenticated={setIsAuthenticated} cartCount={cartCount}/>}
         </Stack.Screen>
         <Stack.Screen name="Cart" component={CartScreen} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
+        <Stack.Screen
+          name="Details"
+        >
+          {() => <DetailsScreen setCartCount={setCartCount}/>}
+        </Stack.Screen>
         </>
       ) : (
         <Stack.Screen name="Auth" options={{ headerShown: false }}>

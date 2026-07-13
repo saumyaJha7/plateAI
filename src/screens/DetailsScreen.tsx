@@ -11,7 +11,11 @@ import {
 
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-export default function DetailsScreen() {
+type DetailsScreenProp = {
+  setCartCount : (value : any) => void;
+}
+
+export default function DetailsScreen({setCartCount} : DetailsScreenProp) {
   const navigation: any = useNavigation();
   const route: any = useRoute();
 
@@ -55,11 +59,14 @@ export default function DetailsScreen() {
 
               <Pressable
                 style={styles.button}
-                onPress={() =>
+                onPress={() => {
+                  setCartCount((prev : number) => prev + 1);
+
                   navigation.navigate("Cart", {
                     restaurant,
                     item
                   })
+                }
                 }
               >
                 <Text style={styles.buttonText}>Add</Text>

@@ -14,14 +14,16 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [hasSeenBoarding, setHasSeenBoarding] = useState(false);
 
+  const [cartCount, setCartCount] = useState(0);
+
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        // const authStatus = await getAuthStatus();
-        // const boardingStatus = await getBoardingStatus();
+        const authStatus = await getAuthStatus();
+        const boardingStatus = await getBoardingStatus();
 
-        // setIsAuthenticated(authStatus);
-        // setHasSeenBoarding(boardingStatus);
+        setIsAuthenticated(authStatus);
+        setHasSeenBoarding(boardingStatus);
       } catch (error) {
         console.error("Error initializing app:", error);
       } finally {
@@ -43,6 +45,8 @@ export default function App() {
         hasSeenBoarding={hasSeenBoarding}
         setIsAuthenticated={setIsAuthenticated}
         setHasSeenBoarding={setHasSeenBoarding}
+        setCartCount={setCartCount}
+        cartCount={cartCount}
       />
     </NavigationContainer>
   );

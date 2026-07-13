@@ -10,9 +10,13 @@ const Tab = createBottomTabNavigator();
 
 type MainTabProps = {
   setIsAuthenticated: (value: boolean) => void;
+  cartCount: number;
 };
 
-export default function MainTabNavigator({ setIsAuthenticated }: MainTabProps) {
+export default function MainTabNavigator({
+  setIsAuthenticated,
+  cartCount,
+}: MainTabProps) {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -67,7 +71,13 @@ export default function MainTabNavigator({ setIsAuthenticated }: MainTabProps) {
 
       <Tab.Screen name="Search" component={SearchScreen} />
 
-      <Tab.Screen name="Orders" component={OrderScreen} />
+      <Tab.Screen
+        name="Orders"
+        component={OrderScreen}
+        options={{
+          tabBarBadge: cartCount > 0 ? cartCount : undefined,
+        }}
+      />
 
       <Tab.Screen name="Profile">
         {(props) => (
