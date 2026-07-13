@@ -8,23 +8,22 @@ import {
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+
+import { logout } from "../storage/authStorage";
 
 type Props = {
-  setIsAuthenticated: (value : boolean) => void;
+  setIsAuthenticated: (value: boolean) => void;
   setHasSeenBoarding: (value: boolean) => void;
 };
 
-import {
-  logout,
-} from "../storage/authStorage";
-
 export default function LogoutScreen({
   setIsAuthenticated,
-  setHasSeenBoarding
+  setHasSeenBoarding,
 }: Props) {
+  const navigation: any = useNavigation();
 
   const handleLogout = async () => {
-
     try {
       await logout();
       setIsAuthenticated(false);
@@ -32,60 +31,50 @@ export default function LogoutScreen({
     } catch (error) {
       console.log(error);
     }
-
   };
 
   return (
-
     <SafeAreaView style={styles.container}>
-
       <View style={styles.card}>
+        <View style={styles.iconWrapper}>
+          <Ionicons name="log-out-outline" size={44} color="#FF6B35" />
+        </View>
 
-        <Ionicons
-          name="log-out-outline"
-          size={70}
-          color="#FF6B35"
-        />
-
-        <Text style={styles.title}>
-          Logout
-        </Text>
+        <Text style={styles.title}>Logout</Text>
 
         <Text style={styles.subtitle}>
           Are you sure you want to logout from PlateAI?
         </Text>
 
         <View style={styles.buttons}>
-
           <Pressable
-            style={styles.cancelButton}
+            style={({ pressed }) => [
+              styles.cancelButton,
+              pressed && { opacity: 0.7 },
+            ]}
+            onPress={() => navigation.goBack()}
+            android_ripple={{ color: "#FFE8DF" }}
           >
-            <Text style={styles.cancelText}>
-              Cancel
-            </Text>
+            <Text style={styles.cancelText}>Cancel</Text>
           </Pressable>
 
           <Pressable
-            style={styles.logoutButton}
+            style={({ pressed }) => [
+              styles.logoutButton,
+              pressed && { opacity: 0.85 },
+            ]}
             onPress={handleLogout}
+            android_ripple={{ color: "#e05a28" }}
           >
-            <Text style={styles.logoutText}>
-              Logout
-            </Text>
+            <Text style={styles.logoutText}>Logout</Text>
           </Pressable>
-
         </View>
-
       </View>
-
     </SafeAreaView>
-
   );
-
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     backgroundColor: "#FFF8F5",
@@ -103,43 +92,54 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
 
+  iconWrapper: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: "#FFF1EB",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+
   title: {
-    marginTop: 20,
-    fontSize: 30,
+    marginTop: 12,
+    fontSize: 26,
     fontWeight: "700",
     color: "#222",
   },
 
   subtitle: {
-    marginTop: 14,
+    marginTop: 12,
     textAlign: "center",
-    color: "#666",
-    fontSize: 16,
+    color: "#777",
+    fontSize: 15,
     lineHeight: 24,
   },
 
   buttons: {
     flexDirection: "row",
-    marginTop: 32,
+    marginTop: 30,
+    gap: 12,
   },
 
   cancelButton: {
     flex: 1,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: "#FF6B35",
     borderRadius: 14,
-    paddingVertical: 16,
-    marginRight: 10,
+    paddingVertical: 15,
     alignItems: "center",
+    overflow: "hidden",
   },
 
   logoutButton: {
     flex: 1,
     backgroundColor: "#FF6B35",
     borderRadius: 14,
-    paddingVertical: 16,
-    marginLeft: 10,
+    paddingVertical: 15,
     alignItems: "center",
+    overflow: "hidden",
   },
 
   cancelText: {
@@ -153,5 +153,4 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 16,
   },
-
 });

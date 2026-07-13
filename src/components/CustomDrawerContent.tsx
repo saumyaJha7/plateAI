@@ -15,63 +15,72 @@ import {
 export default function CustomDrawerContent(
   props: DrawerContentComponentProps
 ) {
-
   return (
-
-    <DrawerContentScrollView {...props}>
+    <DrawerContentScrollView {...props} contentContainerStyle={styles.scroll}>
 
       <View style={styles.header}>
+        <View style={styles.avatarWrapper}>
+          <Image
+            source={{ uri: "https://i.pravatar.cc/150?img=12" }}
+            style={styles.avatar}
+          />
+        </View>
 
-        <Image
-          source={{
-            uri: "https://i.pravatar.cc/150?img=12",
-          }}
-          style={styles.avatar}
-        />
-
-        <Text style={styles.name}>
-          Alex Johnson
-        </Text>
-
-        <Text style={styles.email}>
-          alex@plateai.com
-        </Text>
-
+        <Text style={styles.name}>Alex Johnson</Text>
+        <Text style={styles.email}>alex@plateai.com</Text>
       </View>
 
-      <DrawerItemList {...props} />
+      <View style={styles.itemsContainer}>
+        <DrawerItemList {...props} />
+      </View>
 
     </DrawerContentScrollView>
-
   );
-
 }
 
 const styles = StyleSheet.create({
+  scroll: {
+    flex: 1,
+  },
 
   header: {
     alignItems: "center",
-    paddingVertical: 30,
+    paddingTop: 36,
+    paddingBottom: 24,
+    backgroundColor: "#FFF1EB",
     borderBottomWidth: 1,
-    borderColor: "#EEE",
-    marginBottom: 10,
+    borderBottomColor: "#FFD9C8",
+    marginBottom: 8,
+  },
+
+  avatarWrapper: {
+    borderWidth: 3,
+    borderColor: "#FF6B35",
+    borderRadius: 50,
+    padding: 2,
   },
 
   avatar: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
+    width: 76,
+    height: 76,
+    borderRadius: 38,
   },
 
   name: {
     marginTop: 12,
     fontWeight: "700",
-    fontSize: 20,
+    fontSize: 18,
+    color: "#222",
   },
 
   email: {
-    color: "#666",
-    marginTop: 4,
+    color: "#888",
+    marginTop: 3,
+    fontSize: 13,
   },
 
+  itemsContainer: {
+    flex: 1,
+    paddingTop: 4,
+  },
 });

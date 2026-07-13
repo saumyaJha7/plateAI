@@ -1,12 +1,17 @@
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
 
 export default function SplashScreen() {
   return (
     <View style={styles.container}>
-      {/* Replace with your logo later */}
-      <Text style={styles.logo}>🍔</Text>
+      <Image
+        source={require("../../assets/logo.png")}
+        style={styles.logo}
+        resizeMode="contain"
+      />
 
-      <Text style={styles.title}>Food Delivery</Text>
+      <Text style={styles.title}>PlateAI</Text>
+
+      <Text style={styles.subtitle}>AI that knows what you'll love</Text>
 
       <ActivityIndicator
         size="large"
@@ -22,20 +27,30 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#FFF8F5",
   },
 
   logo: {
-    fontSize: 80,
+    width: 110,
+    height: 110,
+    marginBottom: 20,
   },
 
   title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginTop: 16,
+    fontSize: 36,
+    fontWeight: "800",
+    color: "#1F2937",
+    letterSpacing: 0.5,
+  },
+
+  subtitle: {
+    marginTop: 8,
+    fontSize: 15,
+    color: "#9CA3AF",
+    letterSpacing: 0.2,
   },
 
   loader: {
-    marginTop: 32,
+    marginTop: 48,
   },
 });

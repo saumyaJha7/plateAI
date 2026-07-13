@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Button } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 
 import { setBoardingStatus } from "../storage/authStorage";
@@ -26,8 +25,26 @@ const OnBoardingScreen = ({ setHasSeenBoarding }: OnBoardingScreenProps) => {
     navigation.replace("Login");
   };
 
+  const features = [
+    {
+      emoji: "🤖",
+      title: "AI Powered Recommendations",
+      subtitle: "Discover meals tailored to your taste.",
+    },
+    {
+      emoji: "⚡",
+      title: "Fast Delivery",
+      subtitle: "Hot and fresh food delivered in minutes.",
+    },
+    {
+      emoji: "📍",
+      title: "Live Order Tracking",
+      subtitle: "Track your order from kitchen to doorstep.",
+    },
+  ];
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["bottom"]}>
       {/* Top Section */}
       <View style={styles.topSection}>
         <Image
@@ -39,64 +56,36 @@ const OnBoardingScreen = ({ setHasSeenBoarding }: OnBoardingScreenProps) => {
         <Text style={styles.title}>PlateAI</Text>
 
         <Text style={styles.subtitle}>
-          AI that knows{'\n'}
-          what you'll love to eat.
+          AI that knows{"\n"}what you'll love to eat.
         </Text>
       </View>
 
       {/* Features */}
       <View style={styles.featuresContainer}>
-        <View style={styles.featureCard}>
-          <Text style={styles.featureEmoji}>🤖</Text>
+        {features.map((f) => (
+          <View key={f.title} style={styles.featureCard}>
+            <View style={styles.featureIconWrapper}>
+              <Text style={styles.featureEmoji}>{f.emoji}</Text>
+            </View>
 
-          <View style={styles.featureTextContainer}>
-            <Text style={styles.featureTitle}>
-              AI Powered Recommendations
-            </Text>
-
-            <Text style={styles.featureSubtitle}>
-              Discover meals tailored to your taste.
-            </Text>
+            <View style={styles.featureTextContainer}>
+              <Text style={styles.featureTitle}>{f.title}</Text>
+              <Text style={styles.featureSubtitle}>{f.subtitle}</Text>
+            </View>
           </View>
-        </View>
-
-        <View style={styles.featureCard}>
-          <Text style={styles.featureEmoji}>⚡</Text>
-
-          <View style={styles.featureTextContainer}>
-            <Text style={styles.featureTitle}>
-              Fast Delivery
-            </Text>
-
-            <Text style={styles.featureSubtitle}>
-              Hot and fresh food delivered in minutes.
-            </Text>
-          </View>
-        </View>
-
-        <View style={styles.featureCard}>
-          <Text style={styles.featureEmoji}>📍</Text>
-
-          <View style={styles.featureTextContainer}>
-            <Text style={styles.featureTitle}>
-              Live Order Tracking
-            </Text>
-
-            <Text style={styles.featureSubtitle}>
-              Track your order from kitchen to doorstep.
-            </Text>
-          </View>
-        </View>
+        ))}
       </View>
 
-      {/* Button */}
+      {/* CTA Button */}
       <Pressable
-        style={styles.button}
+        style={({ pressed }) => [
+          styles.button,
+          pressed && styles.buttonPressed,
+        ]}
         onPress={handleGetStarted}
+        android_ripple={{ color: "#e05a28" }}
       >
-        <Text style={styles.buttonText}>
-          Get Started
-        </Text>
+        <Text style={styles.buttonText}>Get Started</Text>
       </Pressable>
     </SafeAreaView>
   );
@@ -104,57 +93,66 @@ const OnBoardingScreen = ({ setHasSeenBoarding }: OnBoardingScreenProps) => {
 
 export default OnBoardingScreen;
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFF8F5",
     justifyContent: "space-between",
     paddingHorizontal: 24,
-    paddingVertical: 40,
+    paddingTop: 60,
+    paddingBottom: 36,
   },
 
   topSection: {
     alignItems: "center",
-    marginTop: 20,
   },
 
   logo: {
-    width: 150,
-    height: 150,
-    marginBottom: 20,
+    width: 140,
+    height: 140,
+    marginBottom: 16,
   },
 
   title: {
     fontSize: 38,
-    fontWeight: "700",
+    fontWeight: "800",
     color: "#1F2937",
+    letterSpacing: 0.5,
   },
 
   subtitle: {
-    fontSize: 18,
-    color: "#6B7280",
+    fontSize: 17,
+    color: "#9CA3AF",
     textAlign: "center",
     marginTop: 10,
     lineHeight: 28,
   },
 
   featuresContainer: {
-    gap: 18,
+    gap: 14,
   },
 
   featureCard: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#FFFFFF",
-    padding: 18,
+    padding: 16,
     borderRadius: 18,
     elevation: 3,
   },
 
+  featureIconWrapper: {
+    width: 52,
+    height: 52,
+    borderRadius: 16,
+    backgroundColor: "#FFF1EB",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 14,
+  },
+
   featureEmoji: {
-    fontSize: 30,
-    marginRight: 16,
+    fontSize: 26,
   },
 
   featureTextContainer: {
@@ -162,29 +160,35 @@ const styles = StyleSheet.create({
   },
 
   featureTitle: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: "600",
     color: "#111827",
   },
 
   featureSubtitle: {
-    fontSize: 14,
-    color: "#6B7280",
-    marginTop: 4,
+    fontSize: 13,
+    color: "#9CA3AF",
+    marginTop: 3,
+    lineHeight: 18,
   },
 
   button: {
     backgroundColor: "#FF6B35",
     paddingVertical: 18,
-    borderRadius: 16,
+    borderRadius: 18,
     alignItems: "center",
     elevation: 4,
+    overflow: "hidden",
+  },
+
+  buttonPressed: {
+    backgroundColor: "#e05a28",
   },
 
   buttonText: {
     color: "#FFFFFF",
     fontSize: 18,
     fontWeight: "700",
+    letterSpacing: 0.3,
   },
 });
-

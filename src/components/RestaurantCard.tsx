@@ -7,9 +7,10 @@ import {
   View,
 } from "react-native";
 
-type Props = {
-  restaurant : Restaurant
+import { Ionicons } from "@expo/vector-icons";
 
+type Props = {
+  restaurant: Restaurant;
   onPress: () => void;
 };
 
@@ -33,76 +34,126 @@ export type Restaurant = {
   menu: MenuItem[];
 };
 
-export default function RestaurantCard({
-  restaurant,
-  onPress,
-}: Props) {
+export default function RestaurantCard({ restaurant, onPress }: Props) {
   return (
     <Pressable
-      style={styles.card}
+      style={({ pressed }) => [styles.card, pressed && { opacity: 0.93 }]}
       onPress={onPress}
+      android_ripple={{ color: "#FFE8DF" }}
     >
       <Image
-        source={{
-          uri: restaurant.image,
-        }}
+        source={{ uri: restaurant.image }}
         style={styles.image}
       />
 
+      {/* Delivery time chip overlaid on image */}
+      <View style={styles.deliveryChip}>
+        <Ionicons name="time-outline" size={12} color="#FFF" />
+        <Text style={styles.deliveryChipText}> {restaurant.deliveryTime}</Text>
+      </View>
+
       <View style={styles.body}>
+        <View style={styles.nameRow}>
+          <Text style={styles.name} numberOfLines={1}>{restaurant.name}</Text>
+          <View style={styles.ratingPill}>
+            <Text style={styles.ratingText}>⭐ {restaurant.rating}</Text>
+          </View>
+        </View>
 
-        <Text style={styles.name}>
-          {restaurant.name}
-        </Text>
-
-        <Text style={styles.info}>
-          ⭐ {restaurant.rating} • {restaurant.deliveryTime}
-        </Text>
-
-        <Text style={styles.price}>
-          {restaurant.priceForTwo}
-        </Text>
-
+        <View style={styles.infoRow}>
+          <Text style={styles.cuisine}>{restaurant.cuisine}</Text>
+          <Text style={styles.dot}>·</Text>
+          <Text style={styles.price}>{restaurant.priceForTwo}</Text>
+        </View>
       </View>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-
   card: {
     backgroundColor: "#FFFFFF",
     borderRadius: 20,
-    marginBottom: 22,
+    marginBottom: 20,
     overflow: "hidden",
     elevation: 4,
   },
 
   image: {
     width: "100%",
-    height: 180,
+    height: 185,
+  },
+
+  deliveryChip: {
+    position: "absolute",
+    top: 12,
+    right: 12,
+    backgroundColor: "rgba(0,0,0,0.55)",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 20,
+  },
+
+  deliveryChipText: {
+    color: "#FFF",
+    fontSize: 12,
+    fontWeight: "600",
   },
 
   body: {
-    padding: 16,
+    padding: 14,
+  },
+
+  nameRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 
   name: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "700",
     color: "#222",
+    flex: 1,
+    marginRight: 8,
   },
 
-  info: {
+  ratingPill: {
+    backgroundColor: "#FFF8F0",
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#FFD9B0",
+  },
+
+  ratingText: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: "#CC6600",
+  },
+
+  infoRow: {
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 6,
-    color: "#666",
-    fontSize: 15,
+  },
+
+  cuisine: {
+    fontSize: 13,
+    color: "#888",
+  },
+
+  dot: {
+    marginHorizontal: 6,
+    color: "#CCC",
   },
 
   price: {
-    marginTop: 6,
+    fontSize: 13,
     color: "#FF6B35",
-    fontWeight: "700",
+    fontWeight: "600",
   },
-
 });

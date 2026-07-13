@@ -9,40 +9,27 @@ import {
 } from "react-native";
 import SettingRow from "../components/SettingRow";
 
-import { Ionicons } from "@expo/vector-icons";
-
 export default function SettingsScreen() {
-
   return (
-
     <SafeAreaView style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-      >
-
-        <Text style={styles.heading}>
-          ⚙️ Settings
-        </Text>
+        <Text style={styles.heading}>Settings</Text>
 
         {/* General */}
-
-        <Text style={styles.sectionTitle}>
-          ⚙️ General
-        </Text>
+        <Text style={styles.sectionTitle}>GENERAL</Text>
 
         <View style={styles.card}>
-
           <SettingRow
             icon="moon-outline"
             title="Dark Mode"
-            right={<Switch value={false} />}
+            right={<Switch value={false} trackColor={{ true: "#FF6B35" }} />}
           />
 
           <SettingRow
             icon="notifications-outline"
             title="Notifications"
-            right={<Switch value={true} />}
+            right={<Switch value={true} trackColor={{ true: "#FF6B35" }} />}
           />
 
           <SettingRow
@@ -50,17 +37,12 @@ export default function SettingsScreen() {
             title="Language"
             right={<Text style={styles.value}>English</Text>}
           />
-
         </View>
 
         {/* Account */}
-
-        <Text style={styles.sectionTitle}>
-         👤 Account
-        </Text>
+        <Text style={styles.sectionTitle}>ACCOUNT</Text>
 
         <View style={styles.card}>
-
           <SettingRow
             icon="person-outline"
             title="Edit Profile"
@@ -78,17 +60,12 @@ export default function SettingsScreen() {
             title="Saved Addresses"
             showArrow
           />
-
         </View>
 
         {/* About */}
-
-        <Text style={styles.sectionTitle}>
-          ℹ️ About
-        </Text>
+        <Text style={styles.sectionTitle}>ABOUT</Text>
 
         <View style={styles.card}>
-
           <SettingRow
             icon="star-outline"
             title="Rate PlateAI"
@@ -104,25 +81,16 @@ export default function SettingsScreen() {
           <SettingRow
             icon="information-circle-outline"
             title="Version"
-            right={
-              <Text style={styles.value}>
-                1.0.0
-              </Text>
-            }
+            right={<Text style={styles.value}>1.0.0</Text>}
           />
-
         </View>
 
       </ScrollView>
-
     </SafeAreaView>
-
   );
-
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     backgroundColor: "#FFF8F5",
@@ -138,10 +106,12 @@ const styles = StyleSheet.create({
   },
 
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: "700",
-    color: "#444",
+    color: "#AAA",
+    letterSpacing: 1.2,
     marginBottom: 10,
+    marginLeft: 4,
   },
 
   card: {
@@ -153,8 +123,7 @@ const styles = StyleSheet.create({
   },
 
   value: {
-    color: "#666",
+    color: "#888",
     fontSize: 15,
   },
-
 });

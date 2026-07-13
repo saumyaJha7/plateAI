@@ -12,8 +12,9 @@ type AuthStackProps = {
 
 export default function AuthStackNavigator({hasSeenBoarding, setIsAuthenticated, setHasSeenBoarding}: AuthStackProps) {
     return (
-        <Stack.Navigator 
+        <Stack.Navigator
             initialRouteName={hasSeenBoarding ? "Login" : "OnBoarding"}
+            screenOptions={{ headerShown: false }}
         >
             <Stack.Screen name="OnBoarding">
                 {props => <OnBoardingScreen {...props} setHasSeenBoarding={setHasSeenBoarding} />}

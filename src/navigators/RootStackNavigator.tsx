@@ -49,7 +49,10 @@ export default function RootStack({
               animation: "slide_from_bottom",
             }}
           />
-          <Stack.Screen name="Details">
+          <Stack.Screen
+            name="Details"
+            options={{ headerShown: false }}
+          >
             {() => <DetailsScreen setCartCount={setCartCount} />}
           </Stack.Screen>
         </>

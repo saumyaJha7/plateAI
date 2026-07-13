@@ -5,6 +5,8 @@ import {
   View,
 } from "react-native";
 
+import { Ionicons } from "@expo/vector-icons";
+
 type Props = {
   order: {
     restaurant: string;
@@ -15,102 +17,113 @@ type Props = {
   };
 };
 
-export default function OrderCard({
-  order,
-}: Props) {
+export default function OrderCard({ order }: Props) {
 
   const getStatusColor = () => {
-
     switch (order.status) {
-
       case "Delivered":
         return "#4CAF50";
-
       case "On The Way":
         return "#FF9800";
-
       case "Cancelled":
         return "#F44336";
-
       default:
         return "#999";
     }
+  };
 
+  const getStatusIcon = (): keyof typeof Ionicons.glyphMap => {
+    switch (order.status) {
+      case "Delivered":
+        return "checkmark-circle";
+      case "On The Way":
+        return "bicycle";
+      case "Cancelled":
+        return "close-circle";
+      default:
+        return "time";
+    }
   };
 
   return (
-
     <View style={styles.card}>
-
-      <View
-  style={[
-    styles.badge,
-    {
-      backgroundColor: getStatusColor(),
-    },
-  ]}
->
-  <Text style={styles.badgeText}>
-    {order.status}
-  </Text>
-</View>
-
-      <Text style={styles.restaurant}>
-        {order.restaurant}
-      </Text>
-
-      <Text style={styles.item}>
-        {order.item}
-      </Text>
-
-      <View style={styles.footer}>
-
-        <Text style={styles.amount}>
-          {order.amount}
-        </Text>
-
-        <Text style={styles.date}>
-          {order.date}
-        </Text>
-
+      <View style={styles.topRow}>
+        <View style={[styles.badge, { backgroundColor: getStatusColor() + "22" }]}>
+          <Ionicons
+            name={getStatusIcon()}
+            size={13}
+            color={getStatusColor()}
+            style={{ marginRight: 4 }}
+          />
+          <Text style={[styles.badgeText, { color: getStatusColor() }]}>
+            {order.status}
+          </Text>
+        </View>
+        <Text style={styles.date}>{order.date}</Text>
       </View>
 
+      <Text style={styles.restaurant}>{order.restaurant}</Text>
+      <Text style={styles.item}>{order.item}</Text>
+
+      <View style={styles.footer}>
+        <Text style={styles.amount}>{order.amount}</Text>
+        <Text style={styles.reorder}>Reorder →</Text>
+      </View>
     </View>
-
   );
-
 }
 
 const styles = StyleSheet.create({
-
   card: {
     backgroundColor: "#FFF",
     borderRadius: 18,
     padding: 18,
-    marginBottom: 18,
+    marginBottom: 16,
     elevation: 3,
   },
 
-  status: {
+  topRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+
+  badge: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 20,
+  },
+
+  badgeText: {
     fontWeight: "700",
-    marginBottom: 10,
+    fontSize: 12,
+  },
+
+  date: {
+    color: "#BBB",
+    fontSize: 12,
   },
 
   restaurant: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "700",
     color: "#222",
   },
 
   item: {
-    color: "#666",
-    marginTop: 6,
+    color: "#888",
+    marginTop: 4,
+    fontSize: 14,
   },
 
   footer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 18,
+    alignItems: "center",
+    marginTop: 16,
   },
 
   amount: {
@@ -119,22 +132,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  date: {
-    color: "#888",
-    fontSize: 13,
+  reorder: {
+    color: "#FF6B35",
+    fontWeight: "600",
+    fontSize: 14,
   },
-
-  badge: {
-  alignSelf: "flex-start",
-  paddingHorizontal: 12,
-  paddingVertical: 6,
-  borderRadius: 20,
-  marginBottom: 12,
-},
-
-badgeText: {
-  color: "#FFF",
-  fontWeight: "700",
-  fontSize: 12,
-},
 });

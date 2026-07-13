@@ -39,6 +39,7 @@ export default function MainTabNavigator({
           paddingBottom: 8,
           paddingTop: 8,
           borderTopWidth: 0,
+          backgroundColor: "#FFFFFF",
           elevation: 8,
         },
 

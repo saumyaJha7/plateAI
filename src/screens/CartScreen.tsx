@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Pressable,
   StyleSheet,
@@ -7,147 +7,152 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 export default function CartScreen() {
-
   const navigation: any = useNavigation();
   const route: any = useRoute();
 
-  const { restaurant , item } = route.params;
+  const { restaurant, item } = route.params;
+
+  const [qty, setQty] = useState(1);
 
   const deliveryFee = 40;
   const taxes = 25;
-
-  const total =
-    item.price +
-    deliveryFee +
-    taxes;
+  const total = item.price * qty + deliveryFee + taxes;
 
   return (
-
     <SafeAreaView style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={({ pressed }) => [styles.backBtn, pressed && { opacity: 0.6 }]}
+        >
+          <Ionicons name="arrow-back" size={20} color="#333" />
+        </Pressable>
+        <Text style={styles.heading}>Your Cart</Text>
+        <View style={{ width: 40 }} />
+      </View>
 
-      <Text style={styles.heading}>
-        🛒 Cart
-      </Text>
-
+      {/* Cart item card */}
       <View style={styles.card}>
-
-        <Text style={styles.restaurant}>
-          {restaurant.name}
-        </Text>
+        <Text style={styles.restaurant}>{restaurant.name}</Text>
 
         <View style={styles.itemRow}>
-
-          <View>
-
-            <Text style={styles.itemName}>
-              {item.name}
-            </Text>
-
-            <Text style={styles.itemPrice}>
-              ₹{item.price}
-            </Text>
-
+          <View style={styles.itemInfo}>
+            <Text style={styles.itemName}>{item.name}</Text>
+            <Text style={styles.itemPrice}>₹{item.price} each</Text>
           </View>
 
-          <View style={styles.quantity}>
+          {/* Quantity stepper */}
+          <View style={styles.stepper}>
+            <Pressable
+              style={({ pressed }) => [
+                styles.stepperBtn,
+                pressed && styles.stepperBtnPressed,
+              ]}
+              onPress={() => setQty((q) => Math.max(1, q - 1))}
+              android_ripple={{ color: "#FFE8DF", borderless: true }}
+            >
+              <Text style={styles.stepperIcon}>−</Text>
+            </Pressable>
 
-            <Text style={styles.qtyButton}>-</Text>
+            <Text style={styles.stepperQty}>{qty}</Text>
 
-            <Text style={styles.qty}>1</Text>
-
-            <Text style={styles.qtyButton}>+</Text>
-
+            <Pressable
+              style={({ pressed }) => [
+                styles.stepperBtn,
+                pressed && styles.stepperBtnPressed,
+              ]}
+              onPress={() => setQty((q) => q + 1)}
+              android_ripple={{ color: "#FFE8DF", borderless: true }}
+            >
+              <Text style={styles.stepperIcon}>+</Text>
+            </Pressable>
           </View>
-
         </View>
-
       </View>
 
+      {/* Price summary */}
       <View style={styles.summary}>
-
         <View style={styles.summaryRow}>
-          <Text>Subtotal</Text>
-          <Text>₹{item.price}</Text>
+          <Text style={styles.summaryLabel}>Subtotal</Text>
+          <Text style={styles.summaryValue}>₹{item.price * qty}</Text>
         </View>
 
         <View style={styles.summaryRow}>
-          <Text>Delivery</Text>
-          <Text>₹40</Text>
+          <Text style={styles.summaryLabel}>Delivery</Text>
+          <Text style={styles.summaryValue}>₹{deliveryFee}</Text>
         </View>
 
         <View style={styles.summaryRow}>
-          <Text>Taxes</Text>
-          <Text>₹25</Text>
+          <Text style={styles.summaryLabel}>Taxes & Fees</Text>
+          <Text style={styles.summaryValue}>₹{taxes}</Text>
         </View>
 
-        <View
-          style={styles.divider}
-        />
+        <View style={styles.divider} />
 
         <View style={styles.summaryRow}>
-
-          <Text style={styles.total}>
-            Total
-          </Text>
-
-          <Text style={styles.total}>
-            ₹{total}
-          </Text>
-
+          <Text style={styles.totalLabel}>Total</Text>
+          <Text style={styles.totalValue}>₹{total}</Text>
         </View>
-
       </View>
 
+      {/* Delivery address */}
       <View style={styles.address}>
-
-        <Text style={styles.addressTitle}>
-          Delivery Address
-        </Text>
-
-        <Text style={styles.addressText}>
-          📍 Home{"\n"}
-          221B Baker Street
-        </Text>
-
+        <View style={styles.addressHeader}>
+          <Ionicons name="location" size={18} color="#FF6B35" />
+          <Text style={styles.addressTitle}> Delivery Address</Text>
+        </View>
+        <Text style={styles.addressText}>Home — 221B Baker Street</Text>
       </View>
 
+      {/* CTA */}
       <Pressable
-
-        style={styles.button}
-
-        onPress={() =>
-          navigation.navigate("Order")
-        }
-
+        style={({ pressed }) => [
+          styles.button,
+          pressed && styles.buttonPressed,
+        ]}
+        onPress={() => navigation.navigate("Order")}
+        android_ripple={{ color: "#e05a28" }}
       >
-
-        <Text style={styles.buttonText}>
-          Proceed to Checkout
-        </Text>
-
+        <Text style={styles.buttonText}>Proceed to Checkout</Text>
+        <Text style={styles.buttonSub}>₹{total}</Text>
       </Pressable>
-
     </SafeAreaView>
-
   );
-
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     backgroundColor: "#FFF8F5",
     padding: 20,
   },
 
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 22,
+  },
+
+  backBtn: {
+    width: 40,
+    height: 40,
+    backgroundColor: "#FFF",
+    borderRadius: 14,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 2,
+  },
+
   heading: {
-    fontSize: 30,
+    fontSize: 22,
     fontWeight: "700",
-    marginBottom: 20,
+    color: "#222",
   },
 
   card: {
@@ -158,9 +163,10 @@ const styles = StyleSheet.create({
   },
 
   restaurant: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: "700",
-    marginBottom: 20,
+    color: "#333",
+    marginBottom: 16,
   },
 
   itemRow: {
@@ -169,35 +175,61 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  itemInfo: {
+    flex: 1,
+  },
+
   itemName: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "600",
+    color: "#222",
   },
 
   itemPrice: {
-    marginTop: 6,
+    marginTop: 4,
     color: "#FF6B35",
-    fontWeight: "700",
+    fontWeight: "600",
+    fontSize: 14,
   },
 
-  quantity: {
+  stepper: {
     flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FFF8F5",
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: "#EAEAEA",
+    overflow: "hidden",
+  },
+
+  stepperBtn: {
+    width: 36,
+    height: 36,
+    justifyContent: "center",
     alignItems: "center",
   },
 
-  qtyButton: {
-    fontSize: 24,
-    fontWeight: "700",
-    paddingHorizontal: 10,
+  stepperBtnPressed: {
+    backgroundColor: "#FFE8DF",
   },
 
-  qty: {
-    fontSize: 18,
-    marginHorizontal: 12,
+  stepperIcon: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#FF6B35",
+    lineHeight: 24,
+  },
+
+  stepperQty: {
+    minWidth: 28,
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#222",
   },
 
   summary: {
-    marginTop: 24,
+    marginTop: 16,
     backgroundColor: "#FFF",
     borderRadius: 18,
     padding: 18,
@@ -207,51 +239,89 @@ const styles = StyleSheet.create({
   summaryRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 14,
+    marginBottom: 12,
+  },
+
+  summaryLabel: {
+    fontSize: 15,
+    color: "#666",
+  },
+
+  summaryValue: {
+    fontSize: 15,
+    color: "#333",
+    fontWeight: "500",
   },
 
   divider: {
     height: 1,
-    backgroundColor: "#EEE",
-    marginBottom: 14,
+    backgroundColor: "#F0F0F0",
+    marginBottom: 12,
   },
 
-  total: {
-    fontSize: 18,
+  totalLabel: {
+    fontSize: 17,
     fontWeight: "700",
+    color: "#222",
+  },
+
+  totalValue: {
+    fontSize: 17,
+    fontWeight: "700",
+    color: "#FF6B35",
   },
 
   address: {
-    marginTop: 24,
+    marginTop: 16,
     backgroundColor: "#FFF",
     borderRadius: 18,
-    padding: 18,
+    padding: 16,
     elevation: 3,
+  },
+
+  addressHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 6,
   },
 
   addressTitle: {
     fontWeight: "700",
-    marginBottom: 8,
-    fontSize: 17,
+    fontSize: 15,
+    color: "#222",
   },
 
   addressText: {
     color: "#666",
-    lineHeight: 24,
+    fontSize: 14,
+    marginLeft: 22,
   },
 
   button: {
     marginTop: "auto",
     backgroundColor: "#FF6B35",
-    borderRadius: 16,
+    borderRadius: 18,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 18,
+    justifyContent: "space-between",
+    elevation: 4,
+  },
+
+  buttonPressed: {
+    backgroundColor: "#e05a28",
   },
 
   buttonText: {
     color: "#FFF",
     fontWeight: "700",
-    fontSize: 18,
+    fontSize: 17,
   },
 
+  buttonSub: {
+    color: "#FFD4C2",
+    fontWeight: "600",
+    fontSize: 15,
+  },
 });
