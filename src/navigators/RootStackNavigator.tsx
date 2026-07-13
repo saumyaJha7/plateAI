@@ -25,9 +25,10 @@ export default function RootStack({
         <>
         <Stack.Screen
           name="HomeTabs"
-          component={HomeTabNavigator}
           options={{ headerShown: false }}
-        />
+        >
+          {() => <HomeTabNavigator setIsAuthenticated={setIsAuthenticated}/>}
+        </Stack.Screen>
         <Stack.Screen name="Cart" component={CartScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />
         </>

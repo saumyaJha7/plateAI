@@ -8,7 +8,11 @@ import ProfileDrawerNavigator from "./ProfileDrawerNavigator";
 
 const Tab = createBottomTabNavigator();
 
-export default function MainTabNavigator() {
+type MainTabProps = {
+  setIsAuthenticated: (value: boolean) => void;
+};
+
+export default function MainTabNavigator({ setIsAuthenticated }: MainTabProps) {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -65,7 +69,14 @@ export default function MainTabNavigator() {
 
       <Tab.Screen name="Orders" component={OrderScreen} />
 
-      <Tab.Screen name="Profile" component={ProfileDrawerNavigator} />
+      <Tab.Screen name="Profile">
+        {(props) => (
+          <ProfileDrawerNavigator
+            {...props}
+            setIsAuthenticated={setIsAuthenticated}
+          />
+        )}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 }
