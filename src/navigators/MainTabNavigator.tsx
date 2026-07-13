@@ -14,7 +14,7 @@ export default function TabNavigator() {
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Search" component={SearchScreen} />
             <Tab.Screen name="Order" component={OrderScreen} />
-            <Tab.Screen name="Profile" component={ProfileDrawerNavigator} />
+            <Tab.Screen name="Profile" component={ProfileDrawerNavigator} options={{ headerShown : false }}/>
         </Tab.Navigator>
     )
 }
