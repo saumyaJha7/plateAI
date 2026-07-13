@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 type Props = {
   setIsAuthenticated: (value : boolean) => void;
+  setHasSeenBoarding: (value: boolean) => void;
 };
 
 import {
@@ -19,6 +20,7 @@ import {
 
 export default function LogoutScreen({
   setIsAuthenticated,
+  setHasSeenBoarding
 }: Props) {
 
   const handleLogout = async () => {
@@ -26,6 +28,7 @@ export default function LogoutScreen({
     try {
       await logout();
       setIsAuthenticated(false);
+      setHasSeenBoarding(false);
     } catch (error) {
       console.log(error);
     }

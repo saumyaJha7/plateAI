@@ -11,9 +11,10 @@ const Drawer = createDrawerNavigator();
 
 type DrawerProp = {
   setIsAuthenticated: (value: boolean) => void;
+  setHasSeenBoarding: (value: boolean) => void;
 };
 
-export default function DrawerNavigator({ setIsAuthenticated }: DrawerProp) {
+export default function DrawerNavigator({ setIsAuthenticated , setHasSeenBoarding}: DrawerProp) {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
@@ -23,7 +24,7 @@ export default function DrawerNavigator({ setIsAuthenticated }: DrawerProp) {
       <Drawer.Screen name="Help" component={HelpScreen} />
       <Drawer.Screen name="Logout">
         {(props) => (
-          <LogoutScreen {...props} setIsAuthenticated={setIsAuthenticated} />
+          <LogoutScreen {...props} setIsAuthenticated={setIsAuthenticated} setHasSeenBoarding={setHasSeenBoarding}/>
         )}
       </Drawer.Screen>
     </Drawer.Navigator>

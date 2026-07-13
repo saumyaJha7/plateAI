@@ -10,12 +10,15 @@ const Tab = createBottomTabNavigator();
 
 type MainTabProps = {
   setIsAuthenticated: (value: boolean) => void;
+  setHasSeenBoarding: (value: boolean) => void;
   cartCount: number;
+
 };
 
 export default function MainTabNavigator({
   setIsAuthenticated,
   cartCount,
+  setHasSeenBoarding
 }: MainTabProps) {
   return (
     <Tab.Navigator
@@ -84,6 +87,7 @@ export default function MainTabNavigator({
           <ProfileDrawerNavigator
             {...props}
             setIsAuthenticated={setIsAuthenticated}
+            setHasSeenBoarding={setHasSeenBoarding}
           />
         )}
       </Tab.Screen>

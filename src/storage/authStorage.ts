@@ -44,6 +44,7 @@ export const getBoardingStatus = async () => {
 export const logout = async () => {
     try {
         await AsyncStorage.removeItem(STORAGE_KEYS.AUTH);
+        await AsyncStorage.removeItem(STORAGE_KEYS.BOARDING);
     }
     catch (error) {
         console.error("Error logging out:", error);
